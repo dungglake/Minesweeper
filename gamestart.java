@@ -239,12 +239,28 @@ public class gamestart extends JPanel {
                         }
                     }
                 }
-
                 if (mouseX >= gameSettings.AdjustWidth(1080)
-                        && mouseX <= gameSettings.AdjustWidth(1080 + UndoImage.getWidth(null))
+                        && mouseX <= gameSettings.AdjustWidth(1080 + QuitImage.getWidth(null))
                         && mouseY >= gameSettings.AdjustHeight(858)
-                        && mouseY <= gameSettings.AdjustHeight(858 + UndoImage.getHeight(null))) {
-                    System.exit(0);
+                        && mouseY <= gameSettings.AdjustHeight(858 + QuitImage.getHeight(null))) {
+                    int confirm = JOptionPane.showConfirmDialog(
+                        gamestart.this, 
+                        "Do you want to exit game?",
+                        "Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                    );
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        if (musicClip != null && musicClip.isRunning()) {
+                            musicClip.stop();
+                            musicClip.close();
+                        }
+
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(gamestart.this);
+                        frame.setContentPane(new gameMainMenu()); 
+                        frame.pack(); 
+                    }
                 }
             }
 
